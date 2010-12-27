@@ -1,0 +1,20 @@
+== Install ==
+
+gem install geminstaller-exec
+
+== Usage ==
+
+Assume file /var/www/apps/blog/config/geminstaller.yml exists and contains:
+
+...
+
+- name: rack
+  version: 1.0.1
+...
+
+$ cd /var/www/apps/blog && geminstaller-exec rackup
+$ geminstaller-exec -c  /var/www/apps/blog/config/geminstaller.yml rackup --server thin
+
+It will run rackup command from proper gem:
+
+rackup _1.0.1_ --server thin

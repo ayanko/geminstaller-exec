@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'geminstaller'
+
+if %w(-c --config).include?(ARGV[0])
+  geminstaller_config = ARGV.shift
+  gem_bin = ARGV.shift
+else
+  geminstaller_config = File.expand_path("config/geminstaller.yml")
+  gem_bin = ARGV.shift
+end
+
+GemInstaller.autogem("--exceptions --config #{geminstaller_config}")
+name, spec = Gem.loaded_specs.detect { |name, spec| spec.executables.include?(gem_bin) }
+
+raise ArgumentError, "Can't find gem specification for #{gem_bin.inspect} executable" unless spec
+
+exec "#{gem_bin} _#{spec.version}_ #{ARGV.join(' ')}"
