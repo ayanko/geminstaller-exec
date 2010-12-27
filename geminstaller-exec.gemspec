@@ -2,7 +2,8 @@
 
 Gem::Specification.new do |s|
   s.name    = 'geminstaller-exec'
-  s.version = '0.0.1'
+
+  s.version = `git tag | tail -1`.strip
   s.date    = Time.now.strftime("%F")
 
   s.summary = "Run gem executable with proper version from geminstaller config"
