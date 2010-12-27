@@ -4,12 +4,15 @@ require 'rubygems'
 require 'geminstaller'
 
 if %w(-c --config).include?(ARGV[0])
+  ARGV.shift
   geminstaller_config = ARGV.shift
   gem_bin = ARGV.shift
 else
   geminstaller_config = File.expand_path("config/geminstaller.yml")
   gem_bin = ARGV.shift
 end
+
+raise ArgumentError, "Can't find geminstaller config #{geminstaller_config.inspect}" unless File.exists?(geminstaller_config)
 
 GemInstaller.autogem("--exceptions --config #{geminstaller_config}")
 name, spec = Gem.loaded_specs.detect { |name, spec| spec.executables.include?(gem_bin) }
